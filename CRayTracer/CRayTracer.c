@@ -5,6 +5,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <conio.h>
+#include <math.h>
 #include "Main.h"
 //#include <process.h>
 
@@ -25,6 +26,116 @@ int main()
 	ClearScreen();
 	WriteTitle(0);
 	BounceProc(/*void* pMyID*/);
+	//
+	struct Vector v,vv, rr;
+	v.x = 1.0;
+	v.y = 1.0;
+	v.z = 1.0;
+	vv.x = 2.0;
+	vv.y = 2.0;
+	vv.z = 2.0;
+	
+	printf("%f %f %f", v.x, v.y, v.z);
+	struct Vector *pVector;
+	//pVector = &v;
+
+	struct Vector rrr = Plus(&v, &vv);
+	struct Vector r = Minus(&v, &vv);
+	//AddVectorScalar(pVector, 2);
+	pVector = &v;
+	Normalize(pVector);
+	printf("%f %f %f", pVector->x, pVector->y, pVector->z);
+	PrintVector(v);
+	PrintVector(*pVector);
+	ReturnVector(pVector);
+	v = *pVector;
+	PrintVector(v);
+	v.x += 2.0;
+	v.y += 2.0;
+	v.z += 2.0;
+	printf("\nmagnitude = %f", Modv(&v));
+	PrintVector(v);
+	SubstructVectorScalar(pVector, 10);
+	PrintVector(*pVector);
+	AddVectorScalar(pVector, 1);
+	PrintVector(*pVector);
+}
+
+struct Vector Plus(const struct Vector* v1, const struct Vector* v2)
+{
+	struct Vector v;
+	v.x = v1->x + v2->x;
+	v.y = v1->y + v2->y;
+	v.z = v1->z + v2->z;
+	return v;
+}
+
+struct Vector Minus(const struct Vector* v1, const struct Vector* v2)
+{
+	struct Vector v;
+	v.x = v1->x - v2->x;
+	v.y = v1->y - v2->y;
+	v.z = v1->z - v2->z;
+	return v;
+}
+
+float Dot(const struct Vector* v1, const struct Vector* v2)
+{
+	return v1->x * v2->x + v1->y * v2->y + v1->z * v2->z;
+}
+
+struct Vector Cross(const struct Vector* v1, const struct Vector* v2)
+{
+	struct Vector v;
+	v.x = v1->y * v2->z - v2->y * v1->z;
+	v.y = (v1->x * v2->z - v2->x * v1->z) * -1;
+	v.z = v1->x * v2->y - v2->x * v1->y;
+	return v;
+}
+
+void Normalize(struct Vector* v)
+{
+	float length = Modv(v);
+	v->x /= length;
+	v->y /= length;
+	v->z /= length;
+}
+
+float ModvCoordinations(float x, float y, float z)
+{
+	return sqrtf(x * x + y * y + z * z);
+}
+
+float Modv(const struct Vector* v)
+{
+	return sqrtf(v->x * v->x + v->y * v->y + v->z * v->z);
+}
+
+void SubstructVectorScalar(struct Vector* v, float s)
+{
+	v->x -= s;
+	v->y -= s;
+	v->z -= s;
+}
+
+void AddVectorScalar(struct Vector* v, float s)
+{
+	v->x += s;
+	v->y += s;
+	v->z += s;
+}
+
+void PrintVector(const struct Vector v)
+{
+	printf("\n%f %f %f", v.x, v.y, v.z);
+}
+
+struct Vector ReturnVector(struct Vector* v)
+{
+	v->x += 10.0;
+	v->y += 10.0;
+	v->z += 10.0;
+	return *v;
 }
 
 void BounceProc(/*void* pMyID*/)
@@ -43,8 +154,8 @@ void BounceProc(/*void* pMyID*/)
 
 	Coords.X = /*getrandom(0, consoleSize.X - 1)*/ 50;
 	Coords.Y = /*getrandom(0, consoleSize.Y - 1)*/ 10;
-	Delta.X = /*getrandom(-3, 3)*/-1;
-	Delta.Y = /*getrandom(-3, 3)*/1;
+	Delta.X = /*getrandom(-3, 3)*/-3;
+	Delta.Y = /*getrandom(-3, 3)*/-3;
 
 	// Set up character & generate color
 	// attribute from thread number.
@@ -57,10 +168,19 @@ void BounceProc(/*void* pMyID*/)
 	//MyAttrib = 30;
 
 	//test
-	WriteConsoleOutputCharacterW(hConsoleOut, &MyCell, 1,
-								 Coords, &Dummy);
-	WriteConsoleOutputAttribute(hConsoleOut, &MyAttrib, 1,
-								Coords, &Dummy);
+	for (int i = 0; i < 20; i++) {
+		for (int y = 0; y < 20; y++) {
+			MyAttrib = /**MyID*/(30 + i) & 0x0f;   // force black background
+			Coords.X = /*getrandom(0, consoleSize.X - 1)*/ 50 + i;
+			Coords.Y = /*getrandom(0, consoleSize.Y - 1)*/ 10 + y;
+			WriteConsoleOutputCharacterW(hConsoleOut, &MyCell, 1,
+										 Coords, &Dummy);
+			WriteConsoleOutputAttribute(hConsoleOut, &MyAttrib, 1,
+										Coords, &Dummy);
+		}
+
+	}
+
 	//test
 
 	//do
