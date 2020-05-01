@@ -93,6 +93,11 @@ struct Vector Cross(const struct Vector* v1, const struct Vector* v2)
 	return v;
 }
 
+float GetCosAngle(const struct Vector* v1, const struct Vector* v2)
+{
+	return (v1->x * v2->x + v1->y * v2->y + v1->z * v2->z) / (ModvCoordinations(v1->x, v1->y, v1->z) * ModvCoordinations(v2->x, v2->y, v2->z));
+}
+
 void Normalize(struct Vector* v)
 {
 	float length = Modv(v);
