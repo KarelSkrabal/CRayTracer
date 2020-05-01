@@ -21,6 +21,12 @@
     <ClCompile Include="Vector.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Color.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main.h">
@@ -29,5 +35,16 @@
     <ClInclude Include="Vector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Color.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Notes.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

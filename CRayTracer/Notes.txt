@@ -1,0 +1,47 @@
+https://stackoverflow.com/questions/4576019/c-drawing-pixels-question
+(searching string : win32 draw pixel)
+
+https://docs.microsoft.com/cs-cz/cpp/parallel/sample-multithread-c-program?view=vs-2019#compile-and-link-a-multithread-program
+
+
+#include <windows.h>
+#include<conio.h>`
+#include<iostream.h>`
+
+POINT p;    //structure with coordinates to mouse location`
+
+void main()
+{
+    COLORREF color = RGB(255,0,0); // COLORREF to hold the color info`
+
+    HWND hwnd = FindWindowA("ConsoleWindowClass",NULL); // Get the HWND
+    HDC hdc = GetDC(hwnd); // Get the DC from that HWND
+
+    for( int i = 0 ; i < 400 ; i++ )
+    {
+        for(int j=0;j<50;j++)
+            SetPixel(hdc, i, j, color);
+    }
+    while(1)
+    {
+          GetCursorPos(&p);
+          ScreenToClient(hwnd,&p);
+          cout<<p.x<<' '<<p.y;
+          clrscr();
+          if(GetAsyncKeyState(1)) //checks if left mouse button is pressed
+          {
+                //fool around with these functions:
+                SetPixel(hdc,p.x,p.y,color); 
+                //LineTo(hdc,p.x,p.y);
+                //Rectangle(hdc,200,200,p.x,p.y);
+                Sleep(10);
+          }
+    }
+    ReleaseDC(hwnd, hdc); // Release the DC
+    DeleteDC(hdc); // Delete the DC
+    system("pause");
+}
+This is my first answer. I hope I helped and it took a lot of searching to find these functions besides I think I learned more from your script than I showed you :)
+
+shareimprove this answerfollow
+edited Jul 22 '13 at 16:36
